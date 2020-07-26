@@ -1,14 +1,10 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const base=require('./webpack.config.base');
 
 module.exports = {
+  ...base,
   mode: 'production',
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].js'
-  },
   plugins: [new HtmlWebpackPlugin(
       {
     title: 'hello',
@@ -24,6 +20,7 @@ module.exports = {
 
   module: {
     rules: [
+      ...base.module.rules,     //写在rules里面，而不是写在外面，不然会覆盖整个原有的rules，写在里面的话，相当于插入。
       {
         test: /\.css$/,
         use: [
@@ -38,9 +35,6 @@ module.exports = {
       }
     ]
   },
-  devServer: {
-         contentBase: './dist',
-      },
 };
 
 
